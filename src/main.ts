@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './filter/http-exception.filter';
 
 declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  app.useGlobalFilters(new HttpExceptionFilter());
+  await app.listen(4000);
 
   if (module.hot) {
     module.hot.accept();

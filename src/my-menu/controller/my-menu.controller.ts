@@ -11,18 +11,23 @@ import {
   HttpStatus,
   BadRequestException,
   Res,
+  Inject,
+  ParseIntPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { MyMenuService } from '../services/my-menu.service';
-import { CreateMyMenuDto } from '../dto/create-my-menu.dto';
+import { CreateMyMenuDto, createMyMenuSchema } from '../dto/create-my-menu.dto';
 import { UpdateMyMenuDto } from '../dto/update-my-menu.dto';
 import { BaseResposne } from '../base-response';
 import { Response } from 'express';
+import { ZodValidationPipe } from 'src/validation/zod-validation.pipe';
 
 @Controller('my-menu')
 export class MyMenuController {
   constructor(private readonly myMenuService: MyMenuService) {}
 
-  @Post()
+  @Post('add')
+  @UsePipes(new ZodValidationPipe(createMyMenuSchema))
   create(@Body() createMyMenuDto: CreateMyMenuDto) {
     return this.myMenuService.create(createMyMenuDto);
   }
@@ -33,11 +38,29 @@ export class MyMenuController {
   }
 
   @Get()
-  findQuerry(@Query('id') id: string, @Query('name') name: string) {
+  findQuerry(
+    @Query('id', new ParseIntPipe())
+    id: number,
+    @Query('name') name: string,
+  ) {
     if (!id || !name) {
       throw new BadRequestException('Id and name are required');
     }
-    return this.myMenuService.findQuerry(+id, name);
+    return this.myMenuService.findQuerry(id, name);
+  }
+  @Get('validate')
+  findValidateQuerry(
+    @Query(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+    @Query('name') name: string,
+  ) {
+    if (!id || !name) {
+      throw new BadRequestException('Id and name are required');
+    }
+    return this.myMenuService.findQuerry(id, name);
   }
 
   @Patch(':id')
