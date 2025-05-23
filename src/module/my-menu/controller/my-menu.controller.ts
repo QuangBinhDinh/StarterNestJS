@@ -14,6 +14,7 @@ import {
   Inject,
   ParseIntPipe,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { MyMenuService } from '../services/my-menu.service';
 import { CreateMyMenuDto, createMyMenuSchema } from '../dto/create-my-menu.dto';
@@ -21,8 +22,10 @@ import { UpdateMyMenuDto } from '../dto/update-my-menu.dto';
 import { BaseResposne } from '../base-response';
 import { Response } from 'express';
 import { ZodValidationPipe } from 'src/validation/zod-validation.pipe';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('my-menu')
+@UseGuards(AuthGuard)
 export class MyMenuController {
   constructor(private readonly myMenuService: MyMenuService) {}
 

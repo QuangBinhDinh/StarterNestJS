@@ -5,8 +5,8 @@ export class BaseResposne<T> {
 
   constructor(
     data: T,
-    statusCode: number = 200,
     message: string = 'successful',
+    statusCode: number = 200,
   ) {
     this.statusCode = statusCode;
     this.message = message;
