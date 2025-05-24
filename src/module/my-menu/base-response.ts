@@ -1,6 +1,7 @@
 export class BaseResposne<T> {
   statusCode: number;
   message: string;
+
   data: T;
 
   constructor(
@@ -13,3 +14,9 @@ export class BaseResposne<T> {
     this.data = data;
   }
 }
+
+export type BaseResposneType<T> = {
+  statusCode: number;
+  message: string;
+  data: T;
+};

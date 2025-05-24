@@ -9,7 +9,33 @@ export class MyMenuService {
   }
 
   findAll() {
-    return `This action returns all myMenu`;
+    return [
+      {
+        id: 1,
+        name: 'Menu 1',
+        description: 'Menu 1 description',
+      },
+      {
+        id: 2,
+        name: 'Menu 1',
+        description: 'Menu 1 description',
+      },
+      {
+        id: 3,
+        name: 'Menu 1',
+        description: 'Menu 1 description',
+      },
+      {
+        id: 4,
+        name: 'Menu 1',
+        description: 'Menu 1 description',
+      },
+      {
+        id: 5,
+        name: 'Menu 1',
+        description: 'Menu 1 description',
+      },
+    ];
   }
 
   findOne(id: number) {

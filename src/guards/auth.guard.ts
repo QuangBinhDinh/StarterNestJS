@@ -24,8 +24,8 @@ export class AuthGuard implements CanActivate {
       const paylaod = await this.jwtService.verifyAsync(token, {
         secret: JWT_SECRET,
       });
-      req['user'] = paylaod;
-      console.log('Payload: ', paylaod);
+      // req['user'] = paylaod;
+      // console.log('Payload: ', paylaod);
     } catch (err) {
       console.log('Error: ', err);
       throw new UnauthorizedException('Invalid credential');

@@ -11,12 +11,13 @@ import { AuthService } from '../service/auth.service';
 import { ZodValidationPipe } from 'src/validation/zod-validation.pipe';
 import { SignInDto, signInSchema } from '../dto/sign-in.dto';
 import { BaseResposne } from '../../my-menu/base-response';
+import { Message } from 'src/decorators/metadata.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
+  @Message('Login successful')
   @Post('login')
   @UsePipes(new ZodValidationPipe(signInSchema))
   async signIn(@Body() signInDto: SignInDto) {
@@ -24,7 +25,7 @@ export class AuthController {
       signInDto.username,
       signInDto.password,
     );
-    return new BaseResposne(userData, 'Login successful');
+    return userData;
   }
 
   @Get('test-async-function')
@@ -42,7 +43,7 @@ export class AuthController {
     })();
 
     console.log('End'); //3rd
-    return new BaseResposne('Test async function');
+    return 'Test async function';
   }
 
   @Get('test-async-function-2')
@@ -60,6 +61,6 @@ export class AuthController {
     })();
 
     console.log('End'); //5th
-    return new BaseResposne('Test async function');
+    return 'Test async function';
   }
 }

@@ -7,11 +7,9 @@ import {
   Param,
   Delete,
   Query,
-  HttpException,
   HttpStatus,
   BadRequestException,
   Res,
-  Inject,
   ParseIntPipe,
   UsePipes,
   UseGuards,
@@ -23,6 +21,7 @@ import { BaseResposne } from '../base-response';
 import { Response } from 'express';
 import { ZodValidationPipe } from 'src/validation/zod-validation.pipe';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Debug, Message, Paging } from 'src/decorators/metadata.decorator';
 
 @Controller('my-menu')
 @UseGuards(AuthGuard)
@@ -36,6 +35,7 @@ export class MyMenuController {
   }
 
   @Get('all')
+  @Paging()
   findAll() {
     return this.myMenuService.findAll();
   }
@@ -51,7 +51,10 @@ export class MyMenuController {
     }
     return this.myMenuService.findQuerry(id, name);
   }
+
   @Get('validate')
+  @Debug()
+  @Message('Get info successful')
   findValidateQuerry(
     @Query(
       'id',
